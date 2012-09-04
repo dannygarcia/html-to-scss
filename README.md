@@ -79,42 +79,42 @@ html {
 
 	head {
 
-		link {
-
-		}
-		script {
-
-		}
 		title {
 
 		}
 	}
-	body {
+	body.home {
 
-		center {
+		section.nav {
 
-			table {
+			nav {
 
-				tr {
+				ul {
 
-					td {
+					li {
 
-						table {
+						a {
 
-							tr {
-
-								td {
-
-									a {
-
-										img {
-
-										}
-									}
-								}
-							}
 						}
 					}
+				}
+			}
+		}
+		section.main {
+
+			article {
+
+				header {
+
+					h1 {
+
+					}
+				}
+				div.content {
+
+				}
+				footer {
+
 				}
 			}
 		}
