@@ -1,6 +1,6 @@
 # HTML to SCSS
 
-Node.js script that parses HTML to Sass SCSS.
+Node.js script that parses HTML to a Sass SCSS structure format.
 
 ## Requirements
 
@@ -31,42 +31,40 @@ Working on an npm port.
 ### output.scss
 
 ````scss
+html {
 
-	html {
+	head {
 
-		head {
+		link {
 
-			link {
-
-			}
-			script {
-
-			}
-			title {
-
-			}
 		}
-		body {
+		script {
 
-			center {
+		}
+		title {
 
-				table {
+		}
+	}
+	body {
 
-					tr {
+		center {
 
-						td {
+			table {
 
-							table {
+				tr {
 
-								tr {
+					td {
 
-									td {
+						table {
 
-										a {
+							tr {
 
-											img {
+								td {
 
-											}
+									a {
+
+										img {
+
 										}
 									}
 								}
@@ -76,9 +74,9 @@ Working on an npm port.
 				}
 			}
 		}
-		script.jsdom {
-
-		}
 	}
+	script.jsdom {
 
+	}
+}
 ````
