@@ -1,6 +1,6 @@
 # HTML to SCSS
 
-Node.js script that parses HTML to Sass SCSS.
+Node.js script that parses HTML to a Sass SCSS structure format.
 
 ## Requirements
 
@@ -8,12 +8,13 @@ Node.js script that parses HTML to Sass SCSS.
 - [jsdom](https://github.com/tmpvar/jsdom)
 - [optimist](https://github.com/substack/node-optimist)
 
-## Installation
+## Getting Started
 
 Working on an npm port.
 
 	git clone git://github.com/dannyx0/html-to-scss.git
 	cd html-to-scss
+	node h2s.js -i http://news.ycombinator.com -o output.scss
 
 ## Options
 
@@ -21,7 +22,105 @@ Working on an npm port.
 	-i, --input		input file or URL
 	-o, --output	[optional] output file
 
-## Examples
+## Example
 
-	$ node h2s.js -i index.html
-	$ node h2s.js -i http://news.ycombinator.com -o output.scss
+### Command
+
+	$ node h2s.js -i input.html -o output.scss
+
+### input.html
+
+````html
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Example</title>
+	</head>
+	<body class="home">
+
+		<section class="nav">
+			<nav>
+				<ul>
+					<li><a href="#">Menu</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="main">
+			<article>
+				<header>
+					<h1>Article Title</h1>
+				</header>
+				<div class="content"></div>
+				<footer>
+					Publish Date
+				</footer>
+			</article>
+			<article>
+				<header>
+					<h1>Article Title</h1>
+				</header>
+				<div class="content"></div>
+				<footer>
+					Publish Date
+				</footer>
+			</article>
+		</section>
+
+	</body>
+</html>
+````
+
+### output.scss
+
+````scss
+html {
+
+	head {
+
+		link {
+
+		}
+		script {
+
+		}
+		title {
+
+		}
+	}
+	body {
+
+		center {
+
+			table {
+
+				tr {
+
+					td {
+
+						table {
+
+							tr {
+
+								td {
+
+									a {
+
+										img {
+
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	script.jsdom {
+
+	}
+}
+````
