@@ -8,12 +8,13 @@ Node.js script that parses HTML to Sass SCSS.
 - [jsdom](https://github.com/tmpvar/jsdom)
 - [optimist](https://github.com/substack/node-optimist)
 
-## Installation
+## Getting Started
 
 Working on an npm port.
 
 	git clone git://github.com/dannyx0/html-to-scss.git
 	cd html-to-scss
+	node h2s.js -i http://news.ycombinator.com -o output.scss
 
 ## Options
 
@@ -21,7 +22,63 @@ Working on an npm port.
 	-i, --input		input file or URL
 	-o, --output	[optional] output file
 
-## Examples
+## Example
 
-	$ node h2s.js -i index.html
+### Processing Hacker News
+
 	$ node h2s.js -i http://news.ycombinator.com -o output.scss
+
+### output.scss
+
+````scss
+
+	html {
+
+		head {
+
+			link {
+
+			}
+			script {
+
+			}
+			title {
+
+			}
+		}
+		body {
+
+			center {
+
+				table {
+
+					tr {
+
+						td {
+
+							table {
+
+								tr {
+
+									td {
+
+										a {
+
+											img {
+
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		script.jsdom {
+
+		}
+	}
+
+````
