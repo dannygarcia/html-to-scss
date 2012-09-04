@@ -24,6 +24,10 @@ Working on an npm port.
 
 ## Example
 
+### Command
+
+	$ node h2s.js -i input.html -o output.scss
+
 ### input.html
 
 ````html
@@ -67,10 +71,6 @@ Working on an npm port.
 	</body>
 </html>
 ````
-
-### Command
-
-	$ node h2s.js -i input.html -o output.scss
 
 ### output.scss
 
