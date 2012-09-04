@@ -14,11 +14,11 @@ Working on an npm port.
 
 	git clone git://github.com/dannyx0/html-to-scss.git
 	cd html-to-scss
-	node h2s.js -i http://news.ycombinator.com -o output.scss
+	node h2s.js -i http://news.ycombinator.com
 
 ## Options
 
-	-h, --help		this help message
+	-h, --help		the help message
 	-i, --input		input file or URL
 	-o, --output	[optional] output file
 
