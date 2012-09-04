@@ -82,11 +82,25 @@ var Parser = function (options) {
 					'http://code.jquery.com/jquery-1.8.0.min.js'
 				],
 				done: function(errors, window) {
-					self.log(errors);
+					if (errors) {
+						self.log(errors);
+					}
+
 					$ = window.$;
+
+					self.log();
 					self.log('Parsing DOM');
+					self.log();
+
+					self.log("Output:");
+					self.log();
+
 					self.crawl($('html'));
+					self.log();
+
 					self.log("Done Parsing DOM");
+					self.log();
+
 					if (typeof options.toFile.val !== 'undefined') {
 
 						self.log("Saving to file...");
@@ -97,6 +111,7 @@ var Parser = function (options) {
 							} else {
 								self.log("Output saved to " + options.toFile.val);
 							}
+							self.log();
 						});
 
 					}
