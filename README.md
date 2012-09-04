@@ -24,9 +24,53 @@ Working on an npm port.
 
 ## Example
 
-### Processing Hacker News
+### input.html
 
-	$ node h2s.js -i http://news.ycombinator.com -o output.scss
+````html
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Example</title>
+	</head>
+	<body class="home">
+
+		<section class="nav">
+			<nav>
+				<ul>
+					<li><a href="#">Menu</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="main">
+			<article>
+				<header>
+					<h1>Article Title</h1>
+				</header>
+				<div class="content"></div>
+				<footer>
+					Publish Date
+				</footer>
+			</article>
+			<article>
+				<header>
+					<h1>Article Title</h1>
+				</header>
+				<div class="content"></div>
+				<footer>
+					Publish Date
+				</footer>
+			</article>
+		</section>
+
+	</body>
+</html>
+````
+
+### Command
+
+	$ node h2s.js -i input.html -o output.scss
 
 ### output.scss
 
