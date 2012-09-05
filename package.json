@@ -1,6 +1,6 @@
 {
     "name": "html2scss",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "description": "Parse HTML DOM structure to SCSS",
     "homepage": "https://github.com/dannyx0/html-to-scss",
     "author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
@@ -14,10 +14,10 @@
     ],
     "main": "h2s.js",
     "bin": {
-      "html2scss": "test.js"
+      "html2scss": "binLink.js"
     },
     "engines": {
-        "node": "~0.8.5"
+        "node": "~0.8.8"
     },
     "repository": {
         "type": "git",
@@ -32,7 +32,8 @@
         }
     ],
     "dependencies" : {
-        "jsdom"    : "latest",
+        "jsdom" : "latest",
+        "colors" : "latest",
         "optimist" : "latest"
     }
 }
