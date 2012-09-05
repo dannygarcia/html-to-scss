@@ -10,11 +10,8 @@ Node.js script that parses HTML to a Sass SCSS structure format.
 
 ## Getting Started
 
-Working on an npm port.
-
-	git clone git://github.com/dannyx0/html-to-scss.git
-	cd html-to-scss
-	node h2s.js -i http://news.ycombinator.com
+	npm html2scss install -g
+	html2scss -i http://news.ycombinator.com
 
 ## Options
 
@@ -26,7 +23,7 @@ Working on an npm port.
 
 ### Command
 
-	$ node h2s.js -i input.html -o output.scss
+	$ html2scss -i input.html -o output.scss
 
 ### input.html
 
@@ -127,7 +124,7 @@ html {
 
 ## MIT License
 
-HTML to SCSS, and h2s.js are freely distributable under the terms of the MIT license.
+HTML to SCSS is freely distributable under the terms of the MIT license.
 
 Copyright (c) 2012, Danny Garcia. All rights reserved.
 

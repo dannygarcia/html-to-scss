@@ -14,7 +14,7 @@
     ],
     "main": "h2s.js",
     "bin": {
-      "h2s": "test.js"
+      "html2scss": "test.js"
     },
     "engines": {
         "node": "~0.8.5"
