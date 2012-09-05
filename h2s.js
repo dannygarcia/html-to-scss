@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var jsdom = require('jsdom'),
+	colors = require('colors'),
 	argv = require('optimist').argv,
 	fs = require('fs'),
 	tab = '\t',
@@ -30,12 +31,12 @@ var Parser = function (options) {
 		showHelp : function () {
 
 			this.log();
-			this.log("   __   ___          _   ");
-			this.log("  / /  /_  |___     (_)__");
-			this.log(" / _ \// __/(_-<_   / (_-<");
-			this.log("/_//_/____/___(_)_/ /___/");
-			this.log("HTML to SCSS   /___/     ");
-			this.log("https://github.com/dannyx0/html-to-scss");
+			this.log("   __   ___          _   ".red);
+			this.log("  / /  /_  |___     (_)__".red);
+			this.log(" / _ \// __/(_-<_   / (_-<".red);
+			this.log("/_//_/____/___(_)_/ /___/".red);
+			this.log("HTML to SCSS   /___/     ".red);
+			this.log("https://github.com/dannyx0/html-to-scss".white);
 			this.log();
 
 			this.log("Usage: html2scss [options]");
@@ -45,7 +46,7 @@ var Parser = function (options) {
 			this.log();
 
 			for (var op in options) {
-				this.log(options[op].help);
+				this.log(options[op].help.yellow);
 			}
 
 			this.log();
@@ -53,8 +54,8 @@ var Parser = function (options) {
 			this.log("Examples:");
 			this.log();
 
-			this.log("$ html2scss -i index.html");
-			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss");
+			this.log("$ html2scss -i index.html".white);
+			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss".white);
 
 			this.log();
 
@@ -89,27 +90,27 @@ var Parser = function (options) {
 					$ = window.$;
 
 					self.log();
-					self.log('Parsing DOM');
+					self.log('Parsing DOM'.green);
 					self.log();
 
-					self.log("Output:");
+					self.log("Output:".cyan);
 					self.log();
 
 					self.crawl($('html'));
 					self.log();
 
-					self.log("Done Parsing DOM");
+					self.log("Done Parsing DOM".green);
 					self.log();
 
 					if (typeof options.toFile.val !== 'undefined') {
 
-						self.log("Saving to file...");
+						self.log("Saving to file...".yellow);
 
 						fs.writeFile(options.toFile.val, output, function(err) {
 							if(err) {
 								self.log(err);
 							} else {
-								self.log("Output saved to " + options.toFile.val);
+								self.log("Output saved to ".green + options.toFile.val);
 							}
 							self.log();
 						});

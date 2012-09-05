@@ -1,12 +1,10 @@
 # HTML to SCSS
 
-Node.js script that parses HTML to a Sass SCSS structure format.
+Node.js module that parses HTML to a Sass SCSS structure format.
 
 ## Requirements
 
 - [node.js](nodejs.org) (0.8.8+)
-- [jsdom](https://github.com/tmpvar/jsdom)
-- [optimist](https://github.com/substack/node-optimist)
 
 ## Getting Started
 
