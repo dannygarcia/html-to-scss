@@ -38,7 +38,7 @@ var Parser = function (options) {
 			this.log("https://github.com/dannyx0/html-to-scss");
 			this.log();
 
-			this.log("Usage: node h2s.js [options]");
+			this.log("Usage: html2scss [options]");
 			this.log();
 
 			this.log("Options:");
@@ -53,8 +53,8 @@ var Parser = function (options) {
 			this.log("Examples:");
 			this.log();
 
-			this.log("$ node h2s.js -i index.html");
-			this.log("$ node h2s.js -i http://news.ycombinator.com -o output.scss");
+			this.log("$ html2scss -i index.html");
+			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss");
 
 			this.log();
 
