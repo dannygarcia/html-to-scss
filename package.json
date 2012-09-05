@@ -1,0 +1,38 @@
+{
+    "name": "h2s",
+    "version": "0.5.8",
+    "description": "Parse HTML DOM structure to SCSS",
+    "homepage": "https://github.com/dannyx0/html-to-scss",
+    "author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
+    "keywords": [
+        "parse",
+        "html",
+        "scss",
+        "sass",
+        "dom",
+        "jsdom"
+    ],
+    "main": "h2s.js",
+    "bin": {
+      "h2s": "test.js"
+    },
+    "engines": {
+        "node": "~0.8.5"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dannyx0/html-to-scss"
+    },
+    "bugs": {
+        "url": "https://github.com/dannyx0/html-to-scss/issues"
+    },
+    "licenses" : [
+        {
+            "type" : "MIT"
+        }
+    ],
+    "dependencies" : {
+        "jsdom"    : "latest",
+        "optimist" : "latest"
+    }
+}
