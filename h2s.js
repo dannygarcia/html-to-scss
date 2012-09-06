@@ -272,67 +272,6 @@ var Parser = function (options) {
 
 		}
 
-		/*
-
-		crawl : function ($el) {
-
-			var i = 0,
-				j = 0,
-				tabs = '',
-				level = $el.parents().length,
-				$children = $el.children(),
-				className = $el.attr('class'),
-				classes = className.length ? className.split(' ') : 0,
-				tagName = $el[0].nodeName.toLowerCase(),
-				name = '',
-				self = this;
-
-			for (i = 0; i < level; i++) {
-				tabs += tab;
-			}
-
-			if (options.tagNames.val) {
-				name += tagName;
-			}
-
-			// Add classes
-			if (classes !== 0) {
-				for (j = 0; j < classes.length; j++) {
-					name += '.' + classes[j];
-				}
-			}
-
-			if (tagName === 'html') {
-				name = tagName;
-			}
-
-			if (tagName !== prevName && (name.length > 0 || level === 0)) {
-
-				output += tabs;
-				output += name;
-				output += " { \n\n";
-
-				console.log(tabs + name + ' { ');
-				console.log('');
-
-				if ($children.length) {
-
-					$children.each(function () {
-						self.crawl($(this));
-					});
-
-				}
-
-				output += tabs + '}\n';
-				console.log(tabs + '}');
-			}
-
-			prevName = name;
-
-		}
-
-		*/
-
 	};
 
 };
