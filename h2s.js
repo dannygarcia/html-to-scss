@@ -97,6 +97,11 @@ var Parser = function (options) {
 
 		},
 
+		output : function (line) {
+			console.log(line);
+			output += line + "\n\n";
+		},
+
 		init : function () {
 
 			var self = this;
@@ -240,7 +245,7 @@ var Parser = function (options) {
 
 				line += tag;
 
-				console.log(tabs + line + " {");
+				this.output(tabs + line + " {");
 
 				if (ids.length) {
 
