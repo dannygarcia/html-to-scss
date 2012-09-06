@@ -6,23 +6,47 @@ var jsdom = require('jsdom'),
 	fs = require('fs'),
 	tab = '\t',
 	prevName = '',
-	// html = argv.i,
-	// toFile = argv.o,
+	jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString(),
 	$ = null,
 	output = '',
 	options = {
 		help : {
-			help : "  -h, --help	this help message"
+			help : "  -h, --help		this help message"
 		},
 		html : {
 			val : argv.i || argv.input,
-			help : "  -i, --input	input file or URL"
+			help : "  -i, --input		input file or URL"
 		},
 		toFile : {
 			val : argv.o || argv.output,
-			help : "  -o, --output	[optional] output file"
+			help : "  -o, --output		[optional] output file"
+		},
+		tagNames : {
+			val : argv.t || argv.tagNames,
+			help : "  -t, --tagNames	[optional] (default: true) parse element tag names"
+		},
+		classNames : {
+			val : argv.c || argv.classNames,
+			help : "  -c, --classNames	[optional] (default: true) parse element class names"
+		},
+		id : {
+			val : !!(argv.id),
+			help : "  -id			[optional] (default: false) parse element IDs"
 		}
 	};
+
+// Set options that are "true" or "false" to booleans
+for (var op in options) {
+	if (typeof options[op].val === 'undefined') {
+		options[op].val = "false";
+	}
+
+	if (options[op].val === "true") {
+		options[op].val = true;
+	} else if (options[op].val === "false") {
+		options[op].val = false;
+	}
+}
 
 var Parser = function (options) {
 
@@ -79,47 +103,176 @@ var Parser = function (options) {
 
 			jsdom.env({
 				html: options.html.val,
-				scripts: [
-					'http://code.jquery.com/jquery-1.8.0.min.js'
-				],
+				src: [ jquery ],
 				done: function(errors, window) {
+
 					if (errors) {
-						self.log(errors);
+						self.log(errors.red);
 					}
 
 					$ = window.$;
+					$(function () {
 
-					self.log();
-					self.log('Parsing DOM'.green);
-					self.log();
+						self.log();
+						self.log('Parsing DOM'.green);
+						self.log();
 
-					self.log("Output:".cyan);
-					self.log();
+						self.log("Output:".cyan);
+						self.log();
 
-					self.crawl($('html'));
-					self.log();
+						self.adjust($('html'));
+						self.log();
 
-					self.log("Done Parsing DOM".green);
-					self.log();
+						self.log("Done Parsing DOM".green);
+						self.log();
 
-					if (typeof options.toFile.val !== 'undefined') {
+						if (options.toFile.val) {
 
-						self.log("Saving to file...".yellow);
+							self.log("Saving to file...".yellow);
 
-						fs.writeFile(options.toFile.val, output, function(err) {
-							if(err) {
-								self.log(err);
-							} else {
-								self.log("Output saved to ".green + options.toFile.val);
-							}
-							self.log();
-						});
+							fs.writeFile(options.toFile.val, output, function(err) {
+								if(err) {
+									self.log(err);
+								} else {
+									self.log("Output saved to ".green + options.toFile.val);
+								}
+								self.log();
+							});
 
-					}
+						}
+
+					});
 				}
 			});
 
 		},
+
+		repeat : function (pattern, count) {
+			if (count < 1) return '';
+			var result = '';
+			while (count > 0) {
+				if (count & 1) result += pattern;
+				count >>= 1, pattern += pattern;
+			}
+			return result;
+		},
+
+		// Crawls the DOM
+		crawl : function ($el, before, after) {
+
+			var level = 0;
+
+			if (typeof before !== 'undefined') {
+				level = before($el);
+			}
+
+			// Parse Children
+			var $children = $el.children();
+			if ($children.length) {
+
+				$children.each($.proxy(function (i, el) {
+					this.crawl($(el), before, after);
+				}, this));
+
+			}
+
+			if (typeof after !== 'undefined') {
+				after(level);
+			}
+
+		},
+
+		adjust : function ($start) {
+
+			this.crawl($start, $.proxy(function ($el) {
+
+				var attr = {
+						tagName : $el[0].nodeName.toLowerCase(),
+						classes : $el.attr('class').length ? $el.attr('class').split(' ') : false,
+						id : $el.attr('id').length ? $el.attr('id') : false
+					},
+					$siblings = $el.siblings(attr.tagName);
+
+				if ($siblings.length) {
+
+
+					$el.addClass($siblings.attr('class'));
+
+					// Collect all IDs.
+					var IDs = "";
+					$siblings.each(function (i, el) {
+
+						if ($(el).attr('id')) {
+							IDs += $(el).attr('id') + ",";
+						}
+
+					});
+
+					if ($el.attr('id')) {
+						IDs += $el.attr('id');
+					}
+
+					// If there are any IDs, add them to this $el
+					if (IDs.length) {
+						$el.attr('data-ids', IDs.split(','));
+					}
+
+					$el.append($siblings.html());
+					$siblings.remove();
+				}
+
+			}, this));
+
+			this.render($('html'));
+
+		},
+
+		render : function ($start) {
+
+			this.crawl($start, $.proxy(function ($el) {
+
+				var level = $el.parents().length,
+					tabs = this.repeat(tab, level),
+					tag = $el[0].nodeName.toLowerCase(),
+					classes = $el.attr('class').length ? $el.attr('class').split(' ') : '',
+					ids = $el.attr('data-ids').length ? $el.attr('data-ids').split(',') : '',
+					line = "";
+
+				line += tag;
+
+				console.log(tabs + line + " {");
+
+				if (ids.length) {
+
+					for (var i = ids.length - 1; i >= 0; i--) {
+						console.log(tabs + tab + "&#" + ids[i] + " {");
+						console.log(tabs + tab + "}");
+					}
+
+				}
+
+				if (classes.length) {
+
+					for (var j = 0; j < classes.length; j++) {
+						console.log(tabs + tab + "&." + classes[j] + " {");
+						console.log(tabs + tab + "}");
+					}
+
+				}
+
+				return level;
+
+			}, this), $.proxy(function (level) {
+
+				var tabs = this.repeat(tab, level);
+
+				console.log(tabs + "}");
+
+			}, this));
+
+		}
+
+		/*
 
 		crawl : function ($el) {
 
@@ -130,22 +283,35 @@ var Parser = function (options) {
 				$children = $el.children(),
 				className = $el.attr('class'),
 				classes = className.length ? className.split(' ') : 0,
-				name = $el[0].nodeName.toLowerCase(),
+				tagName = $el[0].nodeName.toLowerCase(),
+				name = '',
 				self = this;
 
 			for (i = 0; i < level; i++) {
 				tabs += tab;
 			}
 
+			if (options.tagNames.val) {
+				name += tagName;
+			}
+
+			// Add classes
 			if (classes !== 0) {
 				for (j = 0; j < classes.length; j++) {
 					name += '.' + classes[j];
 				}
 			}
 
-			if (name !== prevName) {
+			if (tagName === 'html') {
+				name = tagName;
+			}
 
-				output += tabs + name + ' { \n\n';
+			if (tagName !== prevName && (name.length > 0 || level === 0)) {
+
+				output += tabs;
+				output += name;
+				output += " { \n\n";
+
 				console.log(tabs + name + ' { ');
 				console.log('');
 
@@ -165,6 +331,8 @@ var Parser = function (options) {
 
 		}
 
+		*/
+
 	};
 
 };
@@ -172,7 +340,7 @@ var Parser = function (options) {
 
 var h2s = new Parser(options);
 
-if (typeof options.html.val === 'undefined' || argv.help || argv.h) {
+if (!options.html.val || argv.help || argv.h) {
 
 	h2s.showHelp();
 	return;
