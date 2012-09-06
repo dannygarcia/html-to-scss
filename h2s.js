@@ -21,21 +21,17 @@ var jsdom = require('jsdom'),
 			val : argv.o || argv.output,
 			help : "  -o, --output		[optional] output file"
 		},
-		tagNames : {
-			val : argv.t || argv.tagNames,
-			help : "  -t, --tagNames	[optional] (default: true) parse element tag names"
-		},
 		classNames : {
-			val : argv.c || argv.classNames,
-			help : "  -c, --classNames	[optional] (default: true) parse element class names"
+			val : argv.C || argv.Classes,
+			help : "  -C, --Classes		[optional] parse element class names"
 		},
-		id : {
-			val : !!(argv.id),
-			help : "  -id			[optional] (default: false) parse element IDs"
+		IDs : {
+			val : argv.I || argv.IDs,
+			help : "  -I, --IDs			[optional] parse element IDs"
 		}
 	};
 
-// Set options that are "true" or "false" to booleans
+// Set options that are "true" or "false" to true booleans
 for (var op in options) {
 	if (typeof options[op].val === 'undefined') {
 		options[op].val = "false";
@@ -78,8 +74,8 @@ var Parser = function (options) {
 			this.log("Examples:");
 			this.log();
 
-			this.log("$ html2scss -i index.html".white);
-			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss".white);
+			this.log("$ html2scss -i index.html -C".white);
+			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss -I".white);
 
 			this.log();
 
@@ -100,7 +96,7 @@ var Parser = function (options) {
 		output : function (line) {
 			line = line || "";
 			console.log(line);
-			output += line + "\n\n";
+			output += line + "\n";
 		},
 
 		init : function () {
@@ -137,12 +133,8 @@ var Parser = function (options) {
 							self.log("Saving to file...".yellow);
 
 							fs.writeFile(options.toFile.val, output, function(err) {
-								if(err) {
-									self.log(err);
-								} else {
-									self.log("Output saved to ".green + options.toFile.val);
-								}
-								self.log();
+								if (err) throw err;
+								self.log("Output saved to ".green + options.toFile.val);
 							});
 
 						}
@@ -249,7 +241,7 @@ var Parser = function (options) {
 				this.output();
 				this.output(tabs + line + " {");
 
-				if (ids.length) {
+				if (ids.length && options.IDs.val) {
 
 					for (var i = ids.length - 1; i >= 0; i--) {
 						this.output();
@@ -260,7 +252,7 @@ var Parser = function (options) {
 
 				}
 
-				if (classes.length) {
+				if (classes.length && options.classNames.val) {
 
 					for (var j = 0; j < classes.length; j++) {
 						this.output();
@@ -278,8 +270,7 @@ var Parser = function (options) {
 				var tabs = this.repeat(tab, level);
 
 				this.output();
-				console.log(tabs + "}");
-				// this.output();
+				this.output(tabs + "}");
 
 			}, this));
 

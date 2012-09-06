@@ -1,6 +1,6 @@
 # HTML to SCSS
 
-Node.js module that parses HTML to a Sass SCSS structure format.
+Node.js module that parses HTML to Sass SCSS structure format.
 
 ## Requirements
 
@@ -13,15 +13,17 @@ Node.js module that parses HTML to a Sass SCSS structure format.
 
 ## Options
 
-	-h, --help		the help message
+	-h, --help		this help message
 	-i, --input		input file or URL
-	-o, --output	[optional] output file
+	-o, --output		[optional] output file
+	-C, --Classes		[optional] parse element class names
+	-I, --IDs			[optional] parse element IDs
 
 ## Example
 
 ### Command
 
-	$ html2scss -i input.html -o output.scss
+	$ html2scss -i 'input.html' -o output.scss -C -I
 
 ### input.html
 
@@ -42,8 +44,8 @@ Node.js module that parses HTML to a Sass SCSS structure format.
 			</nav>
 		</section>
 
-		<section class="main">
-			<article>
+		<section class="main content">
+			<article id="first">
 				<header>
 					<h1>Article Title</h1>
 				</header>
@@ -52,11 +54,12 @@ Node.js module that parses HTML to a Sass SCSS structure format.
 					Publish Date
 				</footer>
 			</article>
-			<article>
+			<article id="second">
 				<header>
 					<h1>Article Title</h1>
 				</header>
 				<div class="content"></div>
+				<article></article>
 				<footer>
 					Publish Date
 				</footer>
@@ -77,10 +80,28 @@ html {
 		title {
 
 		}
-	}
-	body.home {
 
-		section.nav {
+	}
+
+	body {
+
+		&.home {
+
+		}
+
+		section {
+
+			&.nav {
+
+			}
+
+			&.main {
+
+			}
+
+			&.content {
+
+			}
 
 			nav {
 
@@ -91,32 +112,53 @@ html {
 						a {
 
 						}
+
 					}
+
 				}
+
 			}
-		}
-		section.main {
 
 			article {
+
+				&#first {
+
+				}
+
+				&#second {
+
+				}
 
 				header {
 
 					h1 {
 
 					}
-				}
-				div.content {
 
 				}
+
+				div {
+
+					&.content {
+
+					}
+
+				}
+
 				footer {
 
 				}
+
+				article {
+
+				}
+
 			}
+
 		}
-	}
-	script.jsdom {
 
 	}
+
 }
 ````
 
