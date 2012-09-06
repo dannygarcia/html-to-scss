@@ -98,6 +98,7 @@ var Parser = function (options) {
 		},
 
 		output : function (line) {
+			line = line || "";
 			console.log(line);
 			output += line + "\n\n";
 		},
@@ -245,13 +246,16 @@ var Parser = function (options) {
 
 				line += tag;
 
+				this.output();
 				this.output(tabs + line + " {");
 
 				if (ids.length) {
 
 					for (var i = ids.length - 1; i >= 0; i--) {
-						console.log(tabs + tab + "&#" + ids[i] + " {");
-						console.log(tabs + tab + "}");
+						this.output();
+						this.output(tabs + tab + "&#" + ids[i] + " {");
+						this.output();
+						this.output(tabs + tab + "}");
 					}
 
 				}
@@ -259,8 +263,10 @@ var Parser = function (options) {
 				if (classes.length) {
 
 					for (var j = 0; j < classes.length; j++) {
-						console.log(tabs + tab + "&." + classes[j] + " {");
-						console.log(tabs + tab + "}");
+						this.output();
+						this.output(tabs + tab + "&." + classes[j] + " {");
+						this.output();
+						this.output(tabs + tab + "}");
 					}
 
 				}
@@ -271,7 +277,9 @@ var Parser = function (options) {
 
 				var tabs = this.repeat(tab, level);
 
+				this.output();
 				console.log(tabs + "}");
+				// this.output();
 
 			}, this));
 
