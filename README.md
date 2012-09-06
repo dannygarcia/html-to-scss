@@ -8,7 +8,7 @@ Node.js module that parses HTML to Sass SCSS structure format.
 
 ## Getting Started
 
-	npm html2scss install -g
+	npm install -g html2scss
 	html2scss -i http://news.ycombinator.com
 
 ## Options
