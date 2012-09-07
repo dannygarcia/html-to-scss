@@ -1,295 +1,349 @@
-#!/usr/bin/env node
+/*
+ * h2s.js – HTML to SCSS
+ * Copyright (c) 2012, Danny Garcia. All rights reserved.
+ * Code licensed under the MIT License
+ * https://github.com/dannyx0/html-to-scss
+ */
 
-var jsdom = require('jsdom'),
-	colors = require('colors'),
-	argv = require('optimist').argv,
-	fs = require('fs'),
-	tab = '\t',
-	prevName = '',
-	jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString(),
-	$ = null,
-	output = '',
-	options = {
-		help : {
-			help : "  -h, --help		this help message"
-		},
-		html : {
-			val : argv.i || argv.input,
-			help : "  -i, --input		input file or URL"
-		},
-		toFile : {
-			val : argv.o || argv.output,
-			help : "  -o, --output		[optional] output file"
-		},
-		classNames : {
-			val : argv.C || argv.Classes,
-			help : "  -C, --Classes		[optional] parse element class names"
-		},
-		IDs : {
-			val : argv.I || argv.IDs,
-			help : "  -I, --IDs			[optional] parse element IDs"
-		}
-	};
+(function () {
 
-// Set options that are "true" or "false" to true booleans
-for (var op in options) {
-	if (typeof options[op].val === 'undefined') {
-		options[op].val = "false";
-	}
 
-	if (options[op].val === "true") {
-		options[op].val = true;
-	} else if (options[op].val === "false") {
-		options[op].val = false;
-	}
-}
+	/* ==========================
+	* Main HTML Parser */
 
-var Parser = function (options) {
+	var parser = function () {
 
-	return {
+		var jsdom = require('jsdom'),
+			colors = require('colors'),
+			fs = require('fs'),
+			jquery = fs.readFileSync('jquery-1.8.0.min.js').toString();
+			_options = {},
+			tab = '\t',
+			output = "";
 
-		showHelp : function () {
+		return {
 
-			this.log();
-			this.log("   __   ___          _   ".red);
-			this.log("  / /  /_  |___     (_)__".red);
-			this.log(" / _ \// __/(_-<_   / (_-<".red);
-			this.log("/_//_/____/___(_)_/ /___/".red);
-			this.log("HTML to SCSS   /___/     ".red);
-			this.log("https://github.com/dannyx0/html-to-scss".white);
-			this.log();
+			log : function (log) {
 
-			this.log("Usage: html2scss [options]");
-			this.log();
+				if (!_options.log) {
+					return;
+				}
 
-			this.log("Options:");
-			this.log();
+				if (typeof log === 'undefined') {
+					log = "";
+				} else {
+					log = tab + log;
+				}
 
-			for (var op in options) {
-				this.log(options[op].help.yellow);
-			}
+				return console.log(log);
 
-			this.log();
+			},
 
-			this.log("Examples:");
-			this.log();
+			output : function (line) {
+				line = line || "";
+				if (_options.log) {
+					console.log(line);
+				}
+				output += line + "\n";
+			},
 
-			this.log("$ html2scss -i index.html -C".white);
-			this.log("$ html2scss -i http://news.ycombinator.com -o output.scss -I".white);
+			init : function (options, log) {
 
-			this.log();
+				var self = this;
+				_options = options || {};
 
-		},
+				jsdom.env({
+					html: _options.html.val,
+					src: [ jquery ],
+					done: function(errors, window) {
 
-		log : function (log) {
-
-			if (typeof log === 'undefined') {
-				log = "";
-			} else {
-				log = tab + log;
-			}
-
-			return console.log(log);
-
-		},
-
-		output : function (line) {
-			line = line || "";
-			console.log(line);
-			output += line + "\n";
-		},
-
-		init : function () {
-
-			var self = this;
-
-			jsdom.env({
-				html: options.html.val,
-				src: [ jquery ],
-				done: function(errors, window) {
-
-					if (errors) {
-						self.log(errors.red);
-					}
-
-					$ = window.$;
-					$(function () {
-
-						self.log();
-						self.log('Parsing DOM'.green);
-						self.log();
-
-						self.log("Output:".cyan);
-						self.log();
-
-						self.adjust($('html'));
-						self.log();
-
-						self.log("Done Parsing DOM".green);
-						self.log();
-
-						if (options.toFile.val) {
-
-							self.log("Saving to file...".yellow);
-
-							fs.writeFile(options.toFile.val, output, function(err) {
-								if (err) throw err;
-								self.log("Output saved to ".green + options.toFile.val);
-							});
-
+						if (errors) {
+							self.log(errors.red);
 						}
 
-					});
+						$ = window.$;
+						$(function () {
+
+							self.log();
+							self.log('Parsing DOM'.green);
+							self.log();
+
+							self.log("Output:".cyan);
+							self.log();
+
+							self.adjust($('html'));
+							self.log();
+
+							self.log("Done Parsing DOM".green);
+							self.log();
+
+							if (_options.toFile.val) {
+
+								self.log("Saving to file...".yellow);
+
+								fs.writeFile(_options.toFile.val, output, function(err) {
+									if (err) throw err;
+									self.log("Output saved to ".green + _options.toFile.val);
+								});
+
+							}
+
+						});
+					}
+				});
+
+			},
+
+			repeat : function (pattern, count) {
+
+				if (count < 1) return '';
+				var result = '';
+				while (count > 0) {
+					if (count & 1) result += pattern;
+					count >>= 1, pattern += pattern;
 				}
-			});
+				return result;
 
-		},
+			},
 
-		repeat : function (pattern, count) {
-			if (count < 1) return '';
-			var result = '';
-			while (count > 0) {
-				if (count & 1) result += pattern;
-				count >>= 1, pattern += pattern;
-			}
-			return result;
-		},
+			// Crawls the DOM
+			crawl : function ($el, before, after) {
 
-		// Crawls the DOM
-		crawl : function ($el, before, after) {
+				var level = 0;
 
-			var level = 0;
+				if (typeof before !== 'undefined') {
+					level = before($el);
+				}
 
-			if (typeof before !== 'undefined') {
-				level = before($el);
-			}
+				// Parse Children
+				var $children = $el.children();
+				if ($children.length) {
 
-			// Parse Children
-			var $children = $el.children();
-			if ($children.length) {
+					$children.each($.proxy(function (i, el) {
+						this.crawl($(el), before, after);
+					}, this));
 
-				$children.each($.proxy(function (i, el) {
-					this.crawl($(el), before, after);
+				}
+
+				if (typeof after !== 'undefined') {
+					after(level);
+				}
+
+			},
+
+			adjust : function ($start) {
+
+				this.crawl($start, $.proxy(function ($el) {
+
+					var attr = {
+							tagName : $el[0].nodeName.toLowerCase(),
+							classes : $el.attr('class').length ? $el.attr('class').split(' ') : false,
+							id : $el.attr('id').length ? $el.attr('id') : false
+						},
+						$siblings = $el.siblings(attr.tagName);
+
+					if ($siblings.length) {
+
+
+						$el.addClass($siblings.attr('class'));
+
+						// Collect all IDs.
+						var IDs = "";
+						$siblings.each(function (i, el) {
+
+							if ($(el).attr('id')) {
+								IDs += $(el).attr('id') + ",";
+							}
+
+						});
+
+						if ($el.attr('id')) {
+							IDs += $el.attr('id');
+						}
+
+						// If there are any IDs, add them to this $el
+						if (IDs.length) {
+							$el.attr('data-ids', IDs.split(','));
+						}
+
+						$el.append($siblings.html());
+						$siblings.remove();
+					}
+
+				}, this));
+
+				this.render($('html'));
+
+			},
+
+			render : function ($start) {
+
+				this.crawl($start, $.proxy(function ($el) {
+
+					var level = $el.parents().length,
+						tabs = this.repeat(tab, level),
+						tag = $el[0].nodeName.toLowerCase(),
+						classes = $el.attr('class').length ? $el.attr('class').split(' ') : '',
+						ids = $el.attr('data-ids').length ? $el.attr('data-ids').split(',') : '',
+						line = "";
+
+					line += tag;
+
+					this.output();
+					this.output(tabs + line + " {");
+
+					if (ids.length && _options.IDs.val) {
+
+						for (var i = ids.length - 1; i >= 0; i--) {
+							this.output();
+							this.output(tabs + tab + "&#" + ids[i] + " {");
+							this.output();
+							this.output(tabs + tab + "}");
+						}
+
+					}
+
+					if (classes.length && _options.classNames.val) {
+
+						for (var j = 0; j < classes.length; j++) {
+							this.output();
+							this.output(tabs + tab + "&." + classes[j] + " {");
+							this.output();
+							this.output(tabs + tab + "}");
+						}
+
+					}
+
+					return level;
+
+				}, this), $.proxy(function (level) {
+
+					var tabs = this.repeat(tab, level);
+
+					this.output();
+					this.output(tabs + "}");
+
 				}, this));
 
 			}
 
-			if (typeof after !== 'undefined') {
-				after(level);
+		};
+
+	};
+
+
+	/* ==========================
+	* Command Line Interface */
+
+	var cli = function () {
+
+		var argv = require('optimist').argv,
+			colors = require('colors'),
+			options = {
+				help : {
+					help : "  -h, --help		this help message"
+				},
+				html : {
+					val : argv.i || argv.input,
+					help : "  -i, --input		input file or URL"
+				},
+				toFile : {
+					val : argv.o || argv.output,
+					help : "  -o, --output		[optional] output file"
+				},
+				classNames : {
+					val : argv.C || argv.Classes,
+					help : "  -C, --Classes		[optional] parse element class names"
+				},
+				IDs : {
+					val : argv.I || argv.IDs,
+					help : "  -I, --IDs			[optional] parse element IDs"
+				},
+				log : true // Log output in the console.
+			};
+
+		// Set options that are "true" or "false" or undefined as true booleans
+		for (var op in options) {
+			if (typeof options[op].val === 'undefined') {
+				options[op].val = false;
+			} else if (options[op].val === "true") {
+				options[op].val = true;
+			} else if (options[op].val === "false") {
+				options[op].val = false;
 			}
+		}
 
-		},
+		if (!options.html.val || argv.help || argv.h) {
 
-		adjust : function ($start) {
+			cli.showHelp(options);
 
-			this.crawl($start, $.proxy(function ($el) {
+		} else {
 
-				var attr = {
-						tagName : $el[0].nodeName.toLowerCase(),
-						classes : $el.attr('class').length ? $el.attr('class').split(' ') : false,
-						id : $el.attr('id').length ? $el.attr('id') : false
-					},
-					$siblings = $el.siblings(attr.tagName);
-
-				if ($siblings.length) {
-
-
-					$el.addClass($siblings.attr('class'));
-
-					// Collect all IDs.
-					var IDs = "";
-					$siblings.each(function (i, el) {
-
-						if ($(el).attr('id')) {
-							IDs += $(el).attr('id') + ",";
-						}
-
-					});
-
-					if ($el.attr('id')) {
-						IDs += $el.attr('id');
-					}
-
-					// If there are any IDs, add them to this $el
-					if (IDs.length) {
-						$el.attr('data-ids', IDs.split(','));
-					}
-
-					$el.append($siblings.html());
-					$siblings.remove();
-				}
-
-			}, this));
-
-			this.render($('html'));
-
-		},
-
-		render : function ($start) {
-
-			this.crawl($start, $.proxy(function ($el) {
-
-				var level = $el.parents().length,
-					tabs = this.repeat(tab, level),
-					tag = $el[0].nodeName.toLowerCase(),
-					classes = $el.attr('class').length ? $el.attr('class').split(' ') : '',
-					ids = $el.attr('data-ids').length ? $el.attr('data-ids').split(',') : '',
-					line = "";
-
-				line += tag;
-
-				this.output();
-				this.output(tabs + line + " {");
-
-				if (ids.length && options.IDs.val) {
-
-					for (var i = ids.length - 1; i >= 0; i--) {
-						this.output();
-						this.output(tabs + tab + "&#" + ids[i] + " {");
-						this.output();
-						this.output(tabs + tab + "}");
-					}
-
-				}
-
-				if (classes.length && options.classNames.val) {
-
-					for (var j = 0; j < classes.length; j++) {
-						this.output();
-						this.output(tabs + tab + "&." + classes[j] + " {");
-						this.output();
-						this.output(tabs + tab + "}");
-					}
-
-				}
-
-				return level;
-
-			}, this), $.proxy(function (level) {
-
-				var tabs = this.repeat(tab, level);
-
-				this.output();
-				this.output(tabs + "}");
-
-			}, this));
+			parser().init(options, true);
 
 		}
 
 	};
 
-};
+	cli.showHelp = function (options) {
+
+		cli.log();
+		cli.log("   __   ___          _   ".red);
+		cli.log("  / /  /_  |___     (_)__".red);
+		cli.log(" / _ \// __/(_-<_   / (_-<".red);
+		cli.log("/_//_/____/___(_)_/ /___/".red);
+		cli.log("HTML to SCSS   /___/     ".red);
+		cli.log("https://github.com/dannyx0/html-to-scss".white);
+		cli.log();
+
+		cli.log("Usage: html2scss [options]");
+		cli.log();
+
+		cli.log("Options:");
+		cli.log();
+
+		for (var op in options) {
+			if (typeof options[op].help !== 'undefined') {
+				cli.log(options[op].help.yellow);
+			}
+		}
+
+		cli.log();
+
+		cli.log("Examples:");
+		cli.log();
+
+		cli.log("$ html2scss -i index.html -C".white);
+		cli.log("$ html2scss -i http://news.ycombinator.com -o output.scss -I".white);
+
+		cli.log();
+
+	};
+
+	cli.log = function (log) {
+
+		if (typeof log === 'undefined') {
+			log = "";
+		} else {
+			log = "\t" + log;
+		}
+
+		return console.log(log);
+
+	};
 
 
-var h2s = new Parser(options);
+	/* ==========================
+	* Node.js Hook */
 
-if (!options.html.val || argv.help || argv.h) {
+	if (typeof module !== 'undefined' && module.exports) {
 
-	h2s.showHelp();
-	return;
+		module.exports = {
+			cli : cli,
+			parser : parser
+		};
 
-} else {
+	}
 
-	h2s.init();
 
-}
+}).call(this);

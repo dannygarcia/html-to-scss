@@ -1,39 +1,39 @@
 {
-    "name": "html2scss",
-    "version": "0.7.0",
-    "description": "Parse HTML to Sass SCSS structure format.",
-    "homepage": "https://github.com/dannyx0/html-to-scss",
-    "author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
-    "keywords": [
-        "parse",
-        "html",
-        "scss",
-        "sass",
-        "dom",
-        "jsdom"
-    ],
-    "main": "h2s.js",
-    "bin": {
-      "html2scss": "binLink.js"
-    },
-    "engines": {
-        "node": "~0.8.8"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/dannyx0/html-to-scss"
-    },
-    "bugs": {
-        "url": "https://github.com/dannyx0/html-to-scss/issues"
-    },
-    "licenses" : [
-        {
-            "type" : "MIT"
-        }
-    ],
-    "dependencies" : {
-        "jsdom" : "latest",
-        "colors" : "latest",
-        "optimist" : "latest"
-    }
+	"name": "html2scss",
+	"version": "0.7.5",
+	"description": "Parse HTML to Sass SCSS structure format.",
+	"homepage": "https://github.com/dannyx0/html-to-scss",
+	"author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
+	"keywords": [
+		"parse",
+		"html",
+		"scss",
+		"sass",
+		"dom",
+		"jsdom"
+	],
+	"main": "h2s.js",
+	"bin": {
+	  "html2scss": "binLink.js"
+	},
+	"engines": {
+		"node": "~0.8.8"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dannyx0/html-to-scss"
+	},
+	"bugs": {
+		"url": "https://github.com/dannyx0/html-to-scss/issues"
+	},
+	"licenses" : [
+		{
+			"type" : "MIT"
+		}
+	],
+	"dependencies" : {
+		"jsdom" : "latest",
+		"colors" : "latest",
+		"optimist" : "latest"
+	}
 }

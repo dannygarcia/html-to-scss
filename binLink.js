@@ -19,8 +19,8 @@ var findup = function (dirpath, filename) {
 // Where might a locally-installed h2s live?
 var dir = path.resolve(findup(process.cwd(), 'h2s.js'), '../node_modules/h2s');
 
-// If grunt is installed locally, use it. Otherwise use this grunt.
+// If h2s is installed locally, use it. Otherwise use this h2s.
 if (!existsSync(dir)) { dir = './h2s'; }
 
-// Run grunt.
-require(dir);
+// Run!
+require(dir).cli();
