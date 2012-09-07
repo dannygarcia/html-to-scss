@@ -18,10 +18,11 @@
 			fs = require('fs'),
 			jquery = fs.readFileSync('jquery-1.8.0.min.js').toString();
 			_options = {},
-			tab = '\t',
-			output = "";
+			tab = '\t';
 
 		return {
+
+			outputStr : "",
 
 			log : function (log) {
 
@@ -44,10 +45,10 @@
 				if (_options.log) {
 					console.log(line);
 				}
-				output += line + "\n";
+				this.outputStr += line + "\n";
 			},
 
-			init : function (options, log) {
+			init : function (options, callback) {
 
 				var self = this;
 				_options = options || {};
@@ -77,16 +78,19 @@
 							self.log("Done Parsing DOM".green);
 							self.log();
 
+
 							if (_options.toFile.val) {
 
 								self.log("Saving to file...".yellow);
 
-								fs.writeFile(_options.toFile.val, output, function(err) {
+								fs.writeFile(_options.toFile.val, self.outputStr, function(err) {
 									if (err) throw err;
 									self.log("Output saved to ".green + _options.toFile.val);
 								});
 
 							}
+
+							callback(self.outputStr);
 
 						});
 					}
@@ -279,7 +283,7 @@
 
 		} else {
 
-			parser().init(options, true);
+			parser().init(options);
 
 		}
 
