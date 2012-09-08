@@ -16,7 +16,7 @@
 		var jsdom = require('jsdom'),
 			colors = require('colors'),
 			fs = require('fs'),
-			jquery = fs.readFileSync('jquery-1.8.0.min.js').toString();
+			jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString();
 			_options = {},
 			tab = '\t';
 
@@ -90,7 +90,9 @@
 
 							}
 
-							callback(self.outputStr);
+							if (callback) {
+								callback(self.outputStr);
+							}
 
 						});
 					}

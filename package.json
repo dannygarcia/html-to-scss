@@ -1,6 +1,6 @@
 {
 	"name": "html2scss",
-	"version": "0.7.5",
+	"version": "0.7.6",
 	"description": "Parse HTML to Sass SCSS structure format.",
 	"homepage": "https://github.com/dannyx0/html-to-scss",
 	"author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
