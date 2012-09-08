@@ -16,7 +16,8 @@
 		var jsdom = require('jsdom'),
 			colors = require('colors'),
 			fs = require('fs'),
-			jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString();
+			// jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString();
+			jquery = "http://code.jquery.com/jquery-1.5.min.js",
 			_options = {},
 			tab = '\t';
 
@@ -55,7 +56,7 @@
 
 				jsdom.env({
 					html: _options.html.val,
-					src: [ jquery ],
+					scripts: [ "http://code.jquery.com/jquery-1.8.1.min.js" ],
 					done: function(errors, window) {
 
 						if (errors) {
