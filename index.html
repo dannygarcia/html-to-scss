@@ -41,7 +41,8 @@
 
 			<h1>HTML to SCSS</h1>
 
-			<p class="lead">Node.js process that parses HTML to Sass SCSS.</p>
+			<p class="lead">Node.js process that parses HTML to <a href="http://sass-lang.com/">Sass</a> SCSS.</p>
+			<p>Learn more about the project, including the npm package at <a href="https://github.com/dannyx0/html-to-scss">the GitHub project page</a>.</p>
 
 		</header>
 		<div role="main">
@@ -50,14 +51,12 @@
 
 				<div class="span6">
 					<h2>HTML Input</h2>
-					<p>You can parse a full HTML document, HTML snippet or URL.</p>
-					<textarea id="input" class="span6" rows="20"></textarea>
+					<textarea id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="17"></textarea>
+					<button id="parse" type="button" class="btn-block btn btn-large btn-primary">Button</button>
 				</div>
 				<div class="span6">
 					<h2>SCSS Output</h2>
-					<p>Generated SCSS output.</p>
-					<pre id="output">Awaiting input...</pre>
-					<a id="parse" class="btn btn-large btn-primary">Parse HTML</a>
+					<textarea id="output" placeholder="Awaiting input..." class="span6" rows="20"></textarea>
 				</div>
 
 			</div>
@@ -86,10 +85,12 @@
 			var value = $input.val();
 
 			if (!value.length) {
-				// return;
+				$input.focus();
+				return;
 			}
 
 			$output.text('Parsing...');
+			$btn.attr('disabled', true);
 
 			$.ajax({
 				// url : "http://jsonp.jit.su/",
@@ -99,11 +100,16 @@
 				data : {
 					input : value
 				},
+				complete : function () {
+					$btn.attr('disabled', false);
+				},
 				error : function (err) {
-					$output.text(err.statusText + " The server may be down.");
+					$output.text("Error: Your input appears to be malformed. ");
 				},
 				success : function (res) {
 					$output.text(res);
+					$output.focus();
+					$output.select();
 				}
 			});
 
