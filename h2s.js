@@ -59,7 +59,8 @@
 					scripts: [ "http://code.jquery.com/jquery-1.8.1.min.js" ],
 					done: function(errors, window) {
 
-						if (errors || typeof window === 'undefined') {
+						if (errors || typeof window === 'undefined' || typeof window.$ === 'undefined') {
+
 							self.log(errors.red);
 
 							if (callback) {
