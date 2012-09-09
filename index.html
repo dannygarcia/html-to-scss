@@ -78,20 +78,25 @@
 
 		var $btn = $('#parse'),
 			$input = $('#input'),
-			$output = $('output');
+			$output = $('#output');
 
 		$btn.on('click', function () {
 
 			var value = $input.val();
 
 			if (!value.length) {
-				return;
+				// return;
 			}
 
+			$output.text('Parsing...');
+
 			$.ajax({
-				url : "http://jsonp.jit.su/",
+				// url : "http://jsonp.jit.su/",
+				url : "http://immense-beach-7169.herokuapp.com",
+				crossDomain : true,
+				dataType : 'text',
 				data : {
-					url : "http://immense-beach-7169.herokuapp.com/"
+					input : value
 				},
 				success : function (res) {
 					$output.text(res);
