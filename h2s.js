@@ -196,7 +196,10 @@
 
 					line += tag;
 
-					this.output();
+					if (tag !== "html") {
+						this.output();
+					}
+
 					this.output(tabs + line + " {");
 
 					if (ids.length && _options.IDs.val) {
