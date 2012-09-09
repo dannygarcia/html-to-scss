@@ -35,14 +35,15 @@
 			 chromium.org/developers/how-tos/chrome-frame-getting-started -->
 	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
+	<div id="banner"><a target="_blank" href="https://github.com/dannyx0/html-to-scss">Fork me on GitHub</a></div>
 
 	<div class="container">
 		<header class="page-header">
 
-			<h1>HTML to SCSS</h1>
+			<h1><a href="https://github.com/dannyx0/html-to-scss">HTML to SCSS</a></h1>
 
 			<p class="lead">Node.js process that parses HTML to <a href="http://sass-lang.com/">Sass</a> SCSS.</p>
-			<p>Learn more about the project, including the npm package at <a href="https://github.com/dannyx0/html-to-scss">the GitHub project page</a>.</p>
+			<p>Learn more about the project, including the npm package at <a href="https://github.com/dannyx0/html-to-scss">the GitHub project page</a>. <br>Sometimes the server dies, and, well, that's just no fun but it would help if you <a href="https://github.com/dannyx0/html-to-scss/issues">submit an issue on GitHub</a> with the input value.</p>
 
 		</header>
 		<div role="main">
@@ -52,7 +53,7 @@
 				<div class="span6">
 					<h2>HTML Input</h2>
 					<textarea id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="17"></textarea>
-					<button id="parse" type="button" class="btn-block btn btn-large btn-primary">Button</button>
+					<button id="parse" type="button" class="btn-block btn btn-large btn-primary">Parse Input</button>
 				</div>
 				<div class="span6">
 					<h2>SCSS Output</h2>
@@ -93,7 +94,6 @@
 			$btn.attr('disabled', true);
 
 			$.ajax({
-				// url : "http://jsonp.jit.su/",
 				url : "http://immense-beach-7169.herokuapp.com",
 				crossDomain : true,
 				dataType : 'text',
