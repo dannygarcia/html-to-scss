@@ -55,6 +55,7 @@
 				</div>
 				<div class="span6">
 					<h2>SCSS Output</h2>
+					<p>Generated SCSS output.</p>
 					<pre id="output">Awaiting input...</pre>
 					<a id="parse" class="btn btn-large btn-primary">Parse HTML</a>
 				</div>
@@ -97,6 +98,9 @@
 				dataType : 'text',
 				data : {
 					input : value
+				},
+				error : function (err) {
+					$output.text(err.statusText + " The server may be down.");
 				},
 				success : function (res) {
 					$output.text(res);
