@@ -53,8 +53,8 @@
 
 				<div class="span6">
 					<h2>HTML Input</h2>
-					<textarea id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="15"></textarea>
 					<form>
+						<textarea name="input" id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="15"></textarea>
 						<div class="well well-small options">
 							<label class="checkbox inline">
 								<input name="classNames" type="checkbox" id="classNames" value="false"> Exclude Class Names
@@ -110,9 +110,7 @@
 				url : "http://immense-beach-7169.herokuapp.com",
 				crossDomain : true,
 				dataType : 'text',
-				data : {
-					input : value + $('form').serialize()
-				},
+				data :  $('form').serialize(),
 				complete : function () {
 					$btn.attr('disabled', false);
 				},
