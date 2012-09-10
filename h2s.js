@@ -134,7 +134,9 @@
 				if ($children.length) {
 
 					$children.each($.proxy(function (i, el) {
-						this.crawl($(el), before, after);
+						if (el.nodeName !== 'SCRIPT') {
+							this.crawl($(el), before, after);
+						}
 					}, this));
 
 				}
