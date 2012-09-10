@@ -182,6 +182,8 @@
 
 						$el.append($siblings.html());
 						$siblings.remove();
+					} else if (attr.id.length) {
+						$el.attr('data-ids', attr.id);
 					}
 
 				}, this));
