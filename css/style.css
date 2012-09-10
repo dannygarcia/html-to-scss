@@ -218,10 +218,6 @@ td { vertical-align: top; }
 	 Author:
 	 ========================================================================== */
 
-#parse {
-	margin: 20px 0 0 0;
-}
-
 h1 a,
 h1 a:visited {
 	color: #D41111;
@@ -234,6 +230,15 @@ textarea {
 
 .container {
 	margin-bottom: 50px;
+}
+
+.options {
+	margin: 11px 0;
+	padding: 5px 10px 8px;
+}
+
+.options label {
+	margin-right: 10px;
 }
 
 #banner{

@@ -53,8 +53,18 @@
 
 				<div class="span6">
 					<h2>HTML Input</h2>
-					<textarea id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="17"></textarea>
-					<button id="parse" type="button" class="btn-block btn btn-large btn-primary">Parse Input</button>
+					<textarea id="input" placeholder="You can parse a full HTML document, snippet or URL." class="span6" rows="15"></textarea>
+					<form>
+						<div class="well well-small options">
+							<label class="checkbox inline">
+								<input name="classNames" type="checkbox" id="classNames" value="false"> Exclude Class Names
+							</label>
+							<label class="checkbox inline">
+								<input name="IDs" type="checkbox" id="IDs" value="false"> Exclude IDs
+							</label>
+						</div>
+						<button id="parse" type="button" class="btn-block btn btn-large btn-primary">Parse Input</button>
+					</form>
 				</div>
 				<div class="span6">
 					<h2>SCSS Output</h2>
@@ -91,6 +101,8 @@
 				return;
 			}
 
+			// console.log(value);
+
 			$output.text('Parsing...');
 			$btn.attr('disabled', true);
 
@@ -99,7 +111,7 @@
 				crossDomain : true,
 				dataType : 'text',
 				data : {
-					input : value
+					input : value + $('form').serialize()
 				},
 				complete : function () {
 					$btn.attr('disabled', false);
