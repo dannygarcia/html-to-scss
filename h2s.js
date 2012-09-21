@@ -2,7 +2,7 @@
  * h2s.js – HTML to SCSS
  * Copyright (c) 2012, Danny Garcia. All rights reserved.
  * Code licensed under the MIT License
- * https://github.com/dannyx0/html-to-scss
+ * https://github.com/dannygarcia/html-to-scss
  */
 
 (function () {
@@ -314,7 +314,7 @@
 		cli.log(" / _ \// __/(_-<_   / (_-<".red);
 		cli.log("/_//_/____/___(_)_/ /___/".red);
 		cli.log("HTML to SCSS   /___/     ".red);
-		cli.log("https://github.com/dannyx0/html-to-scss".white);
+		cli.log("https://github.com/dannygarcia/html-to-scss".white);
 		cli.log();
 
 		cli.log("Usage: html2scss [options]");
