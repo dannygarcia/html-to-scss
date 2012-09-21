@@ -1,5 +1,6 @@
-# HTML to SCSS
+# HTML to SCSS App
 
+<<<<<<< HEAD
 [Node.js](nodejs.org) module that parses HTML to Sass SCSS structure format.
 
 An online implementation is on the <a href="http://dannygarcia.github.com/html-to-scss/">GitHub Page</a>.
@@ -167,6 +168,11 @@ html {
 
 }
 ````
+=======
+Node.js app that parses HTML to Sass SCSS structure format.
+
+Makes use of the [HTML to SCSS Node Process](https://github.com/dannygarcia/html-to-scss)
+>>>>>>> 9a4e9e3f1444a53ac65744aad18bad1dd42cfd9b
 
 ## MIT License
 
