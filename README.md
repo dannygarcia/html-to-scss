@@ -2,7 +2,7 @@
 
 [Node.js](nodejs.org) module that parses HTML to Sass SCSS structure format.
 
-An online implementation is on the <a href="http://dannyx0.github.com/html-to-scss/">GitHub Page</a>.
+An online implementation is on the <a href="http://dannygarcia.github.com/html-to-scss/">GitHub Page</a>.
 
 ## Things to Note
 

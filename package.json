@@ -1,8 +1,8 @@
 {
 	"name": "html2scss",
-	"version": "0.8.6",
+	"version": "0.8.7",
 	"description": "Parse HTML to Sass SCSS structure format.",
-	"homepage": "https://github.com/dannyx0/html-to-scss",
+	"homepage": "https://github.com/dannygarcia/html-to-scss",
 	"author": "Danny Garcia <contact@danny-garcia.com> (http://danny-garcia.com/)",
 	"keywords": [
 		"parse",
@@ -21,10 +21,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/dannyx0/html-to-scss"
+		"url": "https://github.com/dannygarcia/html-to-scss"
 	},
 	"bugs": {
-		"url": "https://github.com/dannyx0/html-to-scss/issues"
+		"url": "https://github.com/dannygarcia/html-to-scss/issues"
 	},
 	"licenses" : [
 		{
