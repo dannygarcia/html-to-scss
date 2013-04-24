@@ -17,7 +17,8 @@
 			colors = require('colors'),
 			fs = require('fs'),
 			// jquery = fs.readFileSync('./jquery-1.8.0.min.js').toString();
-			jquery = "http://code.jquery.com/jquery-1.5.min.js",
+			// jquery = "http://code.jquery.com/jquery-1.5.min.js",
+			jquery = "http://code.jquery.com/jquery-1.9.1.min.js",
 			_options = {},
 			tab = '\t';
 
@@ -153,8 +154,8 @@
 
 					var attr = {
 							tagName : $el[0].nodeName.toLowerCase(),
-							classes : $el.attr('class').length ? $el.attr('class').split(' ') : false,
-							id : $el.attr('id').length ? $el.attr('id') : false
+							classes : $el.attr('class') != undefined ? $el.attr('class').split(' ') : false,
+							id : $el.attr('id') != undefined ? $el.attr('id') : false
 						},
 						$siblings = $el.siblings(attr.tagName);
 
@@ -201,8 +202,8 @@
 					var level = $el.parents().length,
 						tabs = this.repeat(tab, level),
 						tag = $el[0].nodeName.toLowerCase(),
-						classes = $el.attr('class').length ? $el.attr('class').split(' ') : '',
-						ids = $el.attr('data-ids').length ? $el.attr('data-ids').split(',') : '',
+						classes = $el.attr('class') != undefined ? $el.attr('class').split(' ') : '',
+						ids = $el.attr('data-ids') != undefined ? $el.attr('data-ids').split(',') : '',
 						line = "";
 
 					line += tag;
