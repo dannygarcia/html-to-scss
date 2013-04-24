@@ -13,7 +13,7 @@ var findup = function (dirpath, filename) {
   if (existsSync(filepath)) { return filepath; }
   // If parentpath is the same as dirpath, we can't go any higher.
   var parentpath = path.resolve(dirpath, '..');
-  return parentpath === dirpath ? null : findup(parentpath, filename);
+  return parentpath === dirpath ? '' : findup(parentpath, filename);
 };
 
 // Where might a locally-installed h2s live?
